@@ -10,8 +10,7 @@ class MobileController extends CController
 	public function actionMinicards()
 	{
         date_default_timezone_set('Asia/Novosibirsk');
-        echo $_GET['query'];
-        $url = 'http://catalog.api.2gis.ru/search?what=пиво&where=Новосибирск&version=1.3&key=ruauaz4582';
+        $url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&where=Новосибирск&version=1.3&key=ruauaz4582';
         $json=file_get_contents($url, 0);
         $json1 = json_decode($json , true);
         $result = $json1['result'];
