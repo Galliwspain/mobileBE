@@ -1,0 +1,6 @@
+{
+    "name": "mobileBE",
+    "require": {
+        "yiisoft/yii": "1.1.14"
+    }
+}
