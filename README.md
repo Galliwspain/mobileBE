@@ -9,17 +9,15 @@ Back-end часть mobile проекта летней школы разрабо
     /api/minicompany/{{id}}
     /api/company/{{id}}
 ### Здания
-    /api/minihouse/{{lat}}/{{lon}}
+    /api/minihouse/{{lon}}/{{lat}}
     /api/minihousecompany/{{id}}
     /api/house/{{id}}
 ### Поиск по ключевому слову
-    /api/search/companies/{{query}}/page/{{page}}/coords/{{lat}}/{{lon}}/radius/{{rad}}
+    /api/search/companies/{{query}}/page/{{page}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
    
-    /api/search/markers/{{query}}/coords/{{lat}}/{{lon}}/radius/{{rad}}
-
-
-
 ```javascript
+{
+result: [
 {
 id: "141265769869669",
 lon: "82.919950220543",
@@ -38,4 +36,26 @@ currency: "RUB"
 rating: "4.5",
 status: 60
 },
+...
+]
+}
 ```
+
+
+    /api/search/markers/{{query}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
+
+```javascript
+{
+result: [
+{
+id: "141265769869669",
+lon: "82.919950220543",
+lat: "55.049291323461"
+},
+...
+]
+}
+```
+
+
+
