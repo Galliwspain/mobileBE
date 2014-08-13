@@ -1,5 +1,5 @@
 <?php
-
+define('API_KEY', 'rubdmw6768');
 return array(
     'name'=>'mobileBE',
     'defaultController'=>'Mobile',
@@ -10,8 +10,11 @@ return array(
     'components'=>array(
         'urlManager'=>array(
             'urlFormat'=>'path',
+	    'showScriptName'=>false,
             'rules'=>array(
-                'hello/<query:\w+>'=>'Mobile/minicards',
+		'' => 'Mobile/index',
+                'api/search/companies/<query:\w+>/page/<page:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/minicards',
+                'api/search/markers/<query:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/markers',
             ),
         ),
         'request'=>array(
@@ -19,3 +22,4 @@ return array(
         ),
     ),
 );
+/*/coords<long:\w+>/<lati:\w+>/raduis/<radius:\w+>*/
