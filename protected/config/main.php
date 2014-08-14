@@ -15,7 +15,7 @@ return array(
             'rules'=>array(
 		'' => 'Mobile/index',
                 'api/search/companies/<query>/page/<page:\w+>/coords/<long>/<lati>/radius/<radius:\d+>'=>'Mobile/minicards',
-                'api/search/markers/<query:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/markers',
+                'api/search/markers/<query>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/markers',
                 'api/company/<cid:\w+>'=>'Mobile/minicompany',
             ),
         ),
