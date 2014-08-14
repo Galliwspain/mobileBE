@@ -11,7 +11,7 @@ echo '123';
 	{
         date_default_timezone_set('Asia/Novosibirsk');
 $url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&page='.$_REQUEST['page'].'&version=1.3&key='.API_KEY;
-        $url = $url.'&point='.$_REQUEST['long'].','.$_REQUEST['lati'].'&radiu\s='.$_REQUEST['radius'].'&version=1.3';
+        $url = $url.'&point='.$_REQUEST['long'].','.$_REQUEST['lati'].'&radius='.$_REQUEST['radius'].'&version=1.3';
 
 
 	$json=file_get_contents($url, 0);
