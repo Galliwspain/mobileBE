@@ -4,22 +4,25 @@ class MobileController extends CController
 {
 	public function actionIndex()
 	{
-echo '123';
+
 	}
 	
 	public function actionMinicards()
 	{
-        date_default_timezone_set('Asia/Novosibirsk');
-$url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&page='.$_REQUEST['page'].'&version=1.3&key='.API_KEY;
+	$url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&page='.$_REQUEST['page'].'&version=1.3&key='.API_KEY;
         $url = $url.'&point='.$_REQUEST['long'].','.$_REQUEST['lati'].'&radius='.$_REQUEST['radius'].'&version=1.3';
-
-
 	$json=file_get_contents($url, 0);
         $json1 = json_decode($json , true);
+        if(!isset($json1['result']))
+        {
+                echo $_GET['callback'].'({"error_message"="'.$json1['error_message'].'","error_code"="'.$json1['error_code'].'"});';
+        }
+	else
+	{
         $result = $json1['result'];
         $mh=curl_multi_init();
         $mcurlactive=null;
-        
+
         foreach($result as $i=>$k)
         {
             $idtable[$k['id']]=curl_init();
@@ -72,46 +75,64 @@ $url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&page='.$_R
                 {
 	            $resultjson['result'][$i]['rating']=$strres['rating'];
                 }
-            foreach($strres['schedule'][date('D')] as $e=>$r)
-            {
-                $to=(int)substr($r['to'],0,2).substr($r['to'],3,2);
-                $from=(int)substr($r['from'],0,2).substr($r['from'],3,2);
-                if($to<$from) 
+            if(isset($strres['schedule']))
 		{
-                    $to = $to + 2400;
-                }
-
-                if($time<$from||$time>=$to) 
-		{
-                    $status=0;
-                };
-                if($to - $time >= 100 && $time >= $from) 
-		{
-                    $status=60;
-                    break;
-                }
-                if($to - $time < 100 &&  $time < $to) 
-		{
-                    $status = $to - $time - 40;
-                    break;
-                }   
-            	}
+			foreach($strres['schedule'][date('D')] as $e=>$r)
+			{
+ 	                	$to=(int)substr($r['to'],0,2).substr($r['to'],3,2);
+	         	        $from=(int)substr($r['from'],0,2).substr($r['from'],3,2);
+	           	        if($to<$from) 
+				{
+	        	            $to = $to + 2400;
+	               		}
+		                if($time<$from||$time>=$to) 
+				{
+	                	    $status=0;
+		                };
+		                if($to - $time >= 100 && $time >= $from) 
+				{
+		                    $status=60;
+		                    break;
+		                }
+		                if($to - $time < 100 &&  $time < $to) 
+				{
+		                    $status = $to - $time - 40;
+		                    break;
+		                }   
+	            	}
+	 	}
             $resultjson['result'][$i]['status']=$status;
         }
-	header('Content-Type: application/json');
-	echo json_encode($resultjson);
+	header('Content-Type: application/javascript');
+	if(isset($_GET['callback']))
+	{
+	        echo $_GET['callback'];
+	        echo '(';
+	        echo json_encode($resultjson);
+	        echo ');';
+	}
+	else
+	{
+		echo json_encode($resultjson);
     	}
-
+	}
+	}
 // ===========================================================================================================
 
 	public function actionMarkers()
 	{
 	$url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&pagesize=50&version=1.3&key='.API_KEY;
         $url = $url.'&point='.$_REQUEST['long'].','.$_REQUEST['lati'].'&radius='.$_REQUEST['radius'];
-		$json=file_get_contents($url, 0);
-		$json1 = json_decode($json , true);
-		$result = $json1['result'];
-		foreach ($result as $i=>$k)
+	$json=file_get_contents($url, 0);
+	$json1 = json_decode($json , true);
+        if(!isset($json1['result']))
+        {
+                echo $_GET['callback'].'({"error_message"="'.$json1['error_message'].'","error_code"="'.$json1['error_code'].'"});';
+        }
+	else
+	{
+	$result = $json1['result'];
+	foreach ($result as $i=>$k)
 		{
 			foreach($k as $a=>$b)
 			{
@@ -154,9 +175,106 @@ $url = 'http://catalog.api.2gis.ru/search?what='.$_REQUEST['query'].'&page='.$_R
                 	}
         	}
 	}}
-	header('Content-Type: application/json');
-	echo json_encode($resultjson);
-// foreach($result as $i=>$k){echo $i.' '.$k.' ';}	
-}
+	header('Content-Type: application/javascript');
+        if(isset($_GET['callback']))
+        {
+                echo $_GET['callback'];
+                echo '(';
+                echo json_encode($resultjson);
+                echo ');';
+        }
+        else
+        {
+                echo json_encode($resultjson);
+        }
+	}
+	}
+	public function actionMinicompany()
+	{
+//        date_default_timezone_set('Asia/Novosibirsk');
+        $url = 'http://catalog.api.2gis.ru/profile?&version=1.3&key='.API_KEY.'&id='.$_REQUEST['cid'];
+        $json=file_get_contents($url, 0);
+        if(isset($json1['error_code']))
+        {
+                echo $_GET['callback'].'({"error_message"="'.$json1['error_message'].'","error_code"="'.$json1['error_code'].'"});';
+        }
+	else
+        $result = json_decode($json , true);
+//        echo $result['additional_info']['avg_price'];
+	foreach ($result as $nm=>$y)
+	{
+        	switch($nm) {
+                    case 'rubrics':
+                    $resultjson['result'][$nm]=$y;
+                    case 'name':
+                    $resultjson['result'][$nm]=$y;
+                    case 'id':
+                    $resultjson['result'][$nm]=$y;
+                    case 'reviews_count':
+                    $resultjson['result'][$nm]=$y;
+                    case 'address':
+                    $resultjson['result'][$nm]=$y;
+		    case 'firm_group':
+                    $resultjson['result'][$nm]=$y;
+		    case 'payoptions':
+                    $resultjson['result'][$nm]=$y;
+                    case 'schedule':
+                    $resultjson['result'][$nm]=$y;
+                    case 'contacts':
+                    $resultjson['result'][$nm]=$y;
+                    case 'rating':
+                    $resultjson['result'][$nm]=$y;
+		}
+                if(isset($result['additional_info']['office']))
+                {
+                    $resultjson['result']['additional_info']['office']=$result['additional_info']['office'];
+                }
+                if(isset($result['additional_info']['avg_price']))
+                {
+                    $resultjson['result']['additional_info']['avg_price']=$result['additional_info']['avg_price'];
+                }
 
+	}
+        $time=(int)substr(date('H:i'),0,2).substr(date('H:i'),3,2);
+        if(isset($result['schedule']))
+        {
+		foreach($result['schedule'][date('D')] as $e=>$r)
+                {
+                	$to=(int)substr($r['to'],0,2).substr($r['to'],3,2);
+	                $from=(int)substr($r['from'],0,2).substr($r['from'],3,2);
+	                if($to<$from) 
+	                {
+        		        $to = $to + 2400;
+	                }
+        	        if($time<$from||$time>=$to) 
+	                {
+		                $status=0;
+	                };
+	                if($to - $time >= 100 && $time >= $from) 
+	                {
+		                $status=60;
+		                break;
+	                }
+	                if($to - $time < 100 &&  $time < $to) 
+	                {
+		                $status = $to - $time - 40;
+		                break;
+	                }   
+               }
+	}
+        $resultjson['result']['status']=$status;
+        header('Content-Type: application/javascript');
+        if(isset($_GET['callback']))
+        {
+                echo $_GET['callback'];
+                echo '(';
+                echo json_encode($resultjson);
+                echo ');';
+        }
+        else
+        {
+                echo json_encode($resultjson);
+        }
+
+}
 }

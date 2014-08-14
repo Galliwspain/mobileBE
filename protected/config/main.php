@@ -1,5 +1,6 @@
 <?php
 define('API_KEY', 'rubdmw6768');
+date_default_timezone_set('Asia/Novosibirsk');
 return array(
     'name'=>'mobileBE',
     'defaultController'=>'Mobile',
@@ -15,6 +16,7 @@ return array(
 		'' => 'Mobile/index',
                 'api/search/companies/<query:\w+>/page/<page:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/minicards',
                 'api/search/markers/<query:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/markers',
+                'api/minicompany/<cid:\w+>'=>'Mobile/minicompany',
             ),
         ),
         'request'=>array(
