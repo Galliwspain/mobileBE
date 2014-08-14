@@ -14,9 +14,9 @@ return array(
 	    'showScriptName'=>false,
             'rules'=>array(
 		'' => 'Mobile/index',
-                'api/search/companies/<query:\w+>/page/<page:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/minicards',
+                'api/search/companies/<query:\w+>/page/<page:\w+>/coords/<long>/<lati>/radius/<radius:\d+>'=>'Mobile/minicards',
                 'api/search/markers/<query:\w+>/coords/<long>/<lati>/radius/<radius>'=>'Mobile/markers',
-                'api/minicompany/<cid:\w+>'=>'Mobile/minicompany',
+                'api/company/<cid:\w+>'=>'Mobile/minicompany',
             ),
         ),
         'request'=>array(
