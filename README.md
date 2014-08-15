@@ -4,15 +4,22 @@ Back-end часть mobile проекта летней школы разрабо
 
 Базовая часть url api http://178.62.48.238/api
 
+Запросы выглядят так: 
+
+    http://178.62.48.238/api/search/companies/пиво/page/1/coords/12.345678/87.654321/radius/1000
+
 Виды запросов
 ----
 ### Организации
 
-<<<<<<< HEAD
-    /api/minicompany/{{id}}
+    /minicompany/{{id}}
 
+```javascript
+БЛА БЛА БЛА
+```
 
-    /api/company/{{id}}
+    /company/{{id}}
+
 ```javascript
 {
   "result": {
@@ -106,16 +113,12 @@ Back-end часть mobile проекта летней школы разрабо
 }
 ```
 
-=======
-    /minicompany/{{id}}
-    /company/{{id}}
->>>>>>> 2823df2776f6f4c48061d6a728991c4c723decf4
 ### Здания
-    /minihouse/{{lon}}/{{lat}}
-    /minihousecompany/{{id}}
-    /house/{{id}}
+    minihouse/{{lon}}/{{lat}}
+    minihousecompany/{{id}}
+    house/{{id}}
 ### Поиск по ключевому слову
-    /search/companies/{{query}}/page/{{page}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
+    search/companies/{{query}}/page/{{page}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
    
 ```javascript
 {
@@ -145,7 +148,7 @@ status - переменная, определяющая, закрыто пред
     1-59, если до закрытия организации осталось столько минут
     60, если до закрытия осталось 60 и более минут
 
-    /search/markers/{{query}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
+    search/markers/{{query}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
 
 ```javascript
 {
