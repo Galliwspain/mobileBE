@@ -6,7 +6,7 @@ Back-end часть mobile проекта летней школы разрабо
 
 Запросы выглядят так: 
 
-    http://178.62.48.238/api/search/companies/пиво/page/1/coords/12.345678/87.654321/radius/1000
+    http://178.62.48.238/api/search/companies/пиво/page/1/coords/12.345678/87.654321/radius/1000/Новосибирск
 
 Виды запросов
 ----
@@ -112,7 +112,7 @@ Back-end часть mobile проекта летней школы разрабо
     minihousecompany/{{id}}
     house/{{id}}
 ### Поиск по ключевому слову
-    search/companies/{{query}}/page/{{page}}/coords/{{lon}}/{{lat}}/radius/{{rad}}
+    search/companies/{{query}}/page/{{page}}/coords/{{lon}}/{{lat}}/radius/{{rad}}/{{city}}
    
 ```javascript
 {
