@@ -12,12 +12,6 @@ Back-end часть mobile проекта летней школы разрабо
 ----
 ### Организации
 
-    /minicompany/{{id}}
-
-```javascript
-БЛА БЛА БЛА
-```
-
     /company/{{id}}
 
 ```javascript
